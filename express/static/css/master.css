@@ -25,6 +25,10 @@
     height: 100%;
 }
 
-.main {
-    flex-grow: 1;
+.bg-lighter-dark {
+    background-color: var(--bs-gray-dark)!important;
+}
+
+.table-lighter-dark {
+    --bs-table-bg: var(--bs-gray-dark)!important;
 }

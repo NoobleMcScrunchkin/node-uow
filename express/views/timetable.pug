@@ -1,0 +1,146 @@
+extends includes/html.pug
+
+block head 
+    title Main
+
+block main
+    //- button.btn.btn-primary(type='button' onclick='$(\'.toast\').toast(\'show\')') Show Toasts
+    -
+        let days = [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+        ];
+        let start = new Date();
+        let dayOfWeek = start.getDay();
+        start.setDate(start.getDate() - dayOfWeek + 1);
+        if (dayOfWeek == 0) {
+            start.setDate(start.getDate() - 7);
+        }
+        let end = new Date(start);
+        end.setDate(end.getDate() + 6);
+        let dateRange = {
+            start: start,
+            end: end
+        }
+        timetable.forEach(element => {
+            let startDate = new Date(element.start);
+            let endDate = new Date(element.end);
+            if (!(startDate > dateRange.start && endDate < dateRange.end)) return;
+            let startDateMsg = `${startDate.getDate().pad(2)}/${(startDate.getMonth() + 1).pad(2)}/${startDate.getFullYear()}`;
+            let startTimeMsg = `${startDate.getHours().pad(2)}:${startDate.getMinutes().pad(2)}`;
+            let endTimeMsg = `${endDate.getHours().pad(2)}:${endDate.getMinutes().pad(2)}`;
+            days[startDate.getDay()].push({
+                module: element.desc3,
+                location: element.locAdd1,
+                date: startDateMsg,
+                startTime: startTimeMsg ,
+                endTime: endTimeMsg,
+                teacher: element.teacherName
+            });
+        });
+    .timetable.bg-lighter-dark.p-3
+        h1 This week
+        table.table.table-dark.table-lighter-dark
+            - if (days[1].length != 0)
+                tr.border-top.border-bottom
+                    th.bg-dark(colspan="100%") 
+                        strong
+                            h5 Monday
+                - days[1].forEach((element, index) => {
+                    tr(class= index == days[1].length - 1 ? "border-bottom-0" : "")
+                        td= element.module
+                        td= element.location
+                        td= element.date
+                        td= element.startTime
+                        td= element.endTime
+                        td= element.teacher
+                - });
+            - if (days[2].length != 0)
+                tr.border-top.border-bottom
+                    th.bg-dark(colspan="100%") 
+                        strong
+                            h5 Tuesday
+                - days[2].forEach((element, index) => {
+                    tr(class= index == days[2].length - 1 ? "border-bottom-0" : "")
+                        td= element.module
+                        td= element.location
+                        td= element.date
+                        td= element.startTime
+                        td= element.endTime
+                        td= element.teacher
+                - });
+            - if (days[3].length != 0)
+                tr.border-top.border-bottom
+                        th.bg-dark(colspan="100%") 
+                            strong
+                                h5 Wednesday
+                - days[3].forEach((element, index) => {
+                    tr(class= index == days[3].length - 1 ? "border-bottom-0" : "")
+                        td= element.module
+                        td= element.location
+                        td= element.date
+                        td= element.startTime
+                        td= element.endTime
+                        td= element.teacher
+                - });
+            - if (days[4].length != 0)
+                tr.border-top.border-bottom
+                        th.bg-dark(colspan="100%") 
+                            strong
+                                h5 Thursday
+                - days[4].forEach((element, index) => {
+                    tr(class= index == days[4].length - 1 ? "border-bottom-0" : "")
+                        td= element.module
+                        td= element.location
+                        td= element.date
+                        td= element.startTime
+                        td= element.endTime
+                        td= element.teacher
+                - });
+            - if (days[5].length != 0)
+                tr.border-top.border-bottom
+                        th.bg-dark(colspan="100%") 
+                            strong
+                                h5 Friday
+                - days[5].forEach((element, index) => {
+                    tr(class= index == days[5].length - 1 ? "border-bottom-0" : "")
+                        td= element.module
+                        td= element.location
+                        td= element.date
+                        td= element.startTime
+                        td= element.endTime
+                        td= element.teacher
+                - });
+            - if (days[6].length != 0)
+                tr.border-top.border-bottom
+                        th.bg-dark(colspan="100%") 
+                            strong
+                                h5 Saturday
+                - days[6].forEach((element, index) => {
+                    tr(class= index == days[6].length - 1 ? "border-bottom-0" : "")
+                        td= element.module
+                        td= element.location
+                        td= element.date
+                        td= element.startTime
+                        td= element.endTime
+                        td= element.teacher
+                - });
+            - if (days[0].length != 0)
+                tr.border-top.border-bottom
+                        th.bg-dark(colspan="100%") 
+                            strong
+                                h5 Sunday
+                - days[0].forEach((element, index) => {
+                    tr(class= index == days[0].length - 1 ? "border-bottom-0" : "")
+                        td= element.module
+                        td= element.location
+                        td= element.date
+                        td= element.startTime
+                        td= element.endTime
+                        td= element.teacher
+                - });

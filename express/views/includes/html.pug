@@ -1,0 +1,23 @@
+html(lang="en")
+    head
+        block head
+        include head.pug
+    
+    body.bg-dark.text-white
+        include nav.pug
+        main.p-3
+            block main
+
+        .toast-container.p-3.position-fixed.bottom-0.end-0.mh-100.overflow-auto.pe-auto
+            - for(let i = 0; i < 5; i++)
+                .toast.bg-dark.text-white(role='alert' aria-live='assertive' aria-atomic='true')
+                    .toast-header.bg-dark.text-white
+                        svg.rounded.me-2(width='20px' height='20px' role='img')
+                            rect(width='100%' height='100%' fill='#007aff')
+                        strong.me-auto Bootstrap
+                        small #{Math.floor(Math.random() * (30 - 5) + 5)} mins ago
+                        button.btn-close.btn-close-white(type='button' data-bs-dismiss='toast' aria-label='Close')
+                    .toast-body
+                        | Hello, world! This is a toast message.
+
+
