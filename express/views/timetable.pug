@@ -18,11 +18,13 @@ block main
         let start = new Date();
         let dayOfWeek = start.getDay();
         start.setDate(start.getDate() - dayOfWeek + 1);
+        start.setHours(1, 0, 0, 0);
         if (dayOfWeek == 0) {
             start.setDate(start.getDate() - 7);
         }
         let end = new Date(start);
         end.setDate(end.getDate() + 6);
+        end.setHours(23, 59, 59, 999);
         let dateRange = {
             start: start,
             end: end
@@ -30,7 +32,7 @@ block main
         timetable.forEach(element => {
             let startDate = new Date(element.start);
             let endDate = new Date(element.end);
-            if (!(startDate > dateRange.start && endDate < dateRange.end)) return;
+            if (!(startDate >= dateRange.start && endDate < dateRange.end)) return;
             let startDateMsg = `${startDate.getDate().pad(2)}/${(startDate.getMonth() + 1).pad(2)}/${startDate.getFullYear()}`;
             let startTimeMsg = `${startDate.getHours().pad(2)}:${startDate.getMinutes().pad(2)}`;
             let endTimeMsg = `${endDate.getHours().pad(2)}:${endDate.getMinutes().pad(2)}`;

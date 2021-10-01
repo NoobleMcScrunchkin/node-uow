@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/timetable', async (req, res) => {
+    console.log(req.query);
     res.render('timetable', {pageUrl: "/timetable", timetable: await getTimetable(CMAUTHTOKEN)}, (err, html) => {
         if (err) {
             console.error(err);
