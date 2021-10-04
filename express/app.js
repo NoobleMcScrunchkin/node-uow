@@ -37,6 +37,10 @@ app.get('/timetable', async (req, res) => {
     });
 });
 
+app.get('/getTimetable', async (req, res) => {
+    res.send(JSON.stringify(await getTimetable(CMAUTHTOKEN, req.query.wc)));
+});
+
 app.listen(3000, () => {
     console.log('listening on port 3000');
 });
