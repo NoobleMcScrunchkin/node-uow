@@ -54,10 +54,6 @@ body {
     background-size: cover;
 }
 
-.curvey-svg {
-    width: 100%;
-}
-
 .black-blue-spacer {
     background-image: url('/static/svg/layered-black-blue.svg')
 }
