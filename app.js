@@ -1,8 +1,8 @@
 const express = require("express");
-const path = require('path');
-const debug = require('debug')('app');
-const chalk = require('chalk');
 const morgan = require('morgan');
+const debug = require('debug')('app');
+const path = require('path');
+const chalk = require('chalk');
 
 const port = process.env.PORT || 3000; 
 
@@ -10,12 +10,14 @@ Number.prototype.pad = function(size) {
     var s = String(this);
     while (s.length < (size || 2)) {s = "0" + s;}
     return s;
-}
+};
 
 const app = express();
 app.use(morgan('tiny'));
+
 app.set('views', './views');
 app.set('view engine', 'pug');
+
 app.use('/static', express.static('./static'));
 app.use('/static/js', express.static(path.join(__dirname, "/node_modules/bootstrap/dist/js")));
 app.use('/static/css', express.static(path.join(__dirname, "/node_modules/bootstrap/dist/css")));
