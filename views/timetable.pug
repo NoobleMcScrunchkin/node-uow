@@ -3,88 +3,17 @@ extends includes/html.pug
 block head 
     title Timetable
     script(src="/static/js/timetable.js") 
-    script.
-        var weekCommencing = new Date();
-        let dayOfWeek = weekCommencing.getDay();
-        weekCommencing.setDate(weekCommencing.getDate() - dayOfWeek + 1);
-        weekCommencing.setHours(1, 0, 0, 0);
-        if (dayOfWeek == 0) {
-            weekCommencing.setDate(weekCommencing.getDate() - 7);
-        }
 
 block main
     -
         let days = [
-            [
-                {
-                    module: "Module Name",
-                    location: "Location",
-                    date: "Date",
-                    startTime: "Time" ,
-                    endTime: "End Time",
-                    teacher: "Teacher"
-                }
-            ],
-            [
-                {
-                    module: "Module Name",
-                    location: "Location",
-                    date: "Date",
-                    startTime: "Time" ,
-                    endTime: "End Time",
-                    teacher: "Teacher"
-                }
-            ],
-            [
-                {
-                    module: "Module Name",
-                    location: "Location",
-                    date: "Date",
-                    startTime: "Time" ,
-                    endTime: "End Time",
-                    teacher: "Teacher"
-                }
-            ],
-            [
-                {
-                    module: "Module Name",
-                    location: "Location",
-                    date: "Date",
-                    startTime: "Time" ,
-                    endTime: "End Time",
-                    teacher: "Teacher"
-                }
-            ],
-            [
-                {
-                    module: "Module Name",
-                    location: "Location",
-                    date: "Date",
-                    startTime: "Time" ,
-                    endTime: "End Time",
-                    teacher: "Teacher"
-                }
-            ],
-            [
-                {
-                    module: "Module Name",
-                    location: "Location",
-                    date: "Date",
-                    startTime: "Time" ,
-                    endTime: "End Time",
-                    teacher: "Teacher"
-                }
-            ],
-            [
-                {
-                    module: "Module Name",
-                    location: "Location",
-                    date: "Date",
-                    startTime: "Time" ,
-                    endTime: "End Time",
-                    teacher: "Teacher"
-                }
-            ]
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
         ];
         let dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
         timetable.forEach(element => {
@@ -97,16 +26,17 @@ block main
             if (dayOfWeek == -1) {
                 dayOfWeek = 6;
             }
+            console.log(days, dayOfWeek);
             days[dayOfWeek].push({
                 module: element.desc3,
                 location: element.locAdd1,
                 date: startDateMsg,
-                startTime: startTimeMsg ,
+                startTime: startTimeMsg,
                 endTime: endTimeMsg,
                 teacher: element.teacherName
             });
         });
-    .timetable.bg-lighter-dark.p-3.overflow-auto
+    .timetable.m-3.bg-lighter-dark.p-3.overflow-auto
         h1 This week
         table.table.table-dark.table-lighter-dark.p-3
             each val, index in dayNames
@@ -130,5 +60,3 @@ block main
             | Prev
         button.btn.btn-primary.ms-2(onclick="timetable.nextWeek()") 
             | Next
-            
-            

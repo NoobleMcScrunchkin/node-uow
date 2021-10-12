@@ -1,7 +1,7 @@
 const https = require('https');
 
 module.exports = async (token, startWeek) => {
-    return new Promise((res, rej) => {res([])});
+    // return new Promise((res, rej) => {res([])});
     return new Promise((resolve, reject) => {
         let start;
         if (startWeek) {

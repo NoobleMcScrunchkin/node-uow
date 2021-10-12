@@ -4,9 +4,6 @@ const debug = require('debug')('app');
 const chalk = require('chalk');
 const morgan = require('morgan');
 
-const getTimetable = require('./components/getTimetable');
-const CMAUTHTOKEN = "TOKEN";
-
 const port = process.env.PORT || 3000; 
 
 Number.prototype.pad = function(size) {
@@ -25,53 +22,14 @@ app.use('/static/css', express.static(path.join(__dirname, "/node_modules/bootst
 app.use('/static/css', express.static(path.join(__dirname, "/node_modules/bootstrap-icons/font")));
 app.use('/static/js', express.static(path.join(__dirname, "/node_modules/jquery/dist")));
 
-app.get('/getTimetable', async (req, res) => {
-    res.send(JSON.stringify(await getTimetable(CMAUTHTOKEN, req.query.wc)));
-});
+const mainRouter = require('./routes/mainRoutes');
+app.use('/', mainRouter);
 
-app.get('/', async (req, res) => {
-    res.render('index', {pageUrl: "/", test: "From app.js"}, (err, html) => {
-        if (err) {
-            debug(chalk.red(err));
-            return;
-        }
-        res.send(html);
-    });
-});
+const apiRouter = require('./routes/apiRoutes');
+app.use('/api', apiRouter);
 
-app.get('/timetable', async (req, res) => {
-    res.render('timetable', {pageUrl: "/timetable", timetable: await getTimetable(CMAUTHTOKEN)}, (err, html) => {
-        if (err) {
-            debug(chalk.red(err));
-            return;
-        }
-        res.send(html);
-    });
-});
-
-app.get('/attendance', async (req, res) => {
-    res.render('attendance', {pageUrl: "/attendance", timetable: await getTimetable(CMAUTHTOKEN)}, (err, html) => {
-        if (err) {
-            debug(chalk.red(err));
-            return;
-        }
-        res.send(html);
-    });
-});
-
-app.get('/tetris', async (req, res) => {
-    res.render('tetris', (err, html) => {
-        if (err) {
-            debug(chalk.red(err));
-            return;
-        }
-        res.send(html);
-    });
-});
-
-app.get('/logout', async (req, res) => {
-    res.redirect("/");
-});
+const storystrapRouter = require('./routes/storystrapRoutes');
+app.use('/storystrap', storystrapRouter);
 
 app.use((req, res) => {
     res.statusCode = 404;
@@ -82,7 +40,7 @@ app.use((req, res) => {
         }
         res.send(html);
     });
-})
+});
 
 app.listen(port, () => {
     console.log(`listening on port ${chalk.green(port.toString())}`);

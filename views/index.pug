@@ -6,7 +6,7 @@ block head
     script(src="/static/lib/kute/kute.js") 
 
 block main
-    section.curvey-section
+    section.curvey-section.bg-dark
         h1#funHeader= test
         button.btn.btn-primary(type='button' onclick='$(\'.toast\').toast(\'show\')') Show Toasts
         button#fun.btn.btn-primary.ms-2(type='button' onclick='funButton()') Fun
@@ -15,7 +15,9 @@ block main
 
     section.curvey-section.bg-blue
         h1 Test
-    div.spacer.blue-orange-spacer
+    
+    include includes/transitions/blue-orange.pug
+
     section.curvey-section.bg-orange
         h1 Test 2
     
