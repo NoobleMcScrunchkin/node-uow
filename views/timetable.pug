@@ -1,0 +1,134 @@
+extends includes/html.pug
+
+block head 
+    title Timetable
+    script(src="/static/js/timetable.js") 
+    script.
+        var weekCommencing = new Date();
+        let dayOfWeek = weekCommencing.getDay();
+        weekCommencing.setDate(weekCommencing.getDate() - dayOfWeek + 1);
+        weekCommencing.setHours(1, 0, 0, 0);
+        if (dayOfWeek == 0) {
+            weekCommencing.setDate(weekCommencing.getDate() - 7);
+        }
+
+block main
+    -
+        let days = [
+            [
+                {
+                    module: "Module Name",
+                    location: "Location",
+                    date: "Date",
+                    startTime: "Time" ,
+                    endTime: "End Time",
+                    teacher: "Teacher"
+                }
+            ],
+            [
+                {
+                    module: "Module Name",
+                    location: "Location",
+                    date: "Date",
+                    startTime: "Time" ,
+                    endTime: "End Time",
+                    teacher: "Teacher"
+                }
+            ],
+            [
+                {
+                    module: "Module Name",
+                    location: "Location",
+                    date: "Date",
+                    startTime: "Time" ,
+                    endTime: "End Time",
+                    teacher: "Teacher"
+                }
+            ],
+            [
+                {
+                    module: "Module Name",
+                    location: "Location",
+                    date: "Date",
+                    startTime: "Time" ,
+                    endTime: "End Time",
+                    teacher: "Teacher"
+                }
+            ],
+            [
+                {
+                    module: "Module Name",
+                    location: "Location",
+                    date: "Date",
+                    startTime: "Time" ,
+                    endTime: "End Time",
+                    teacher: "Teacher"
+                }
+            ],
+            [
+                {
+                    module: "Module Name",
+                    location: "Location",
+                    date: "Date",
+                    startTime: "Time" ,
+                    endTime: "End Time",
+                    teacher: "Teacher"
+                }
+            ],
+            [
+                {
+                    module: "Module Name",
+                    location: "Location",
+                    date: "Date",
+                    startTime: "Time" ,
+                    endTime: "End Time",
+                    teacher: "Teacher"
+                }
+            ]
+        ];
+        let dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        timetable.forEach(element => {
+            let startDate = new Date(element.start);
+            let endDate = new Date(element.end);
+            let startDateMsg = `${startDate.getDate().pad(2)}/${(startDate.getMonth() + 1).pad(2)}/${startDate.getFullYear()}`;
+            let startTimeMsg = `${startDate.getHours().pad(2)}:${startDate.getMinutes().pad(2)}`;
+            let endTimeMsg = `${endDate.getHours().pad(2)}:${endDate.getMinutes().pad(2)}`;
+            let dayOfWeek = startDate.getDay() - 1;
+            if (dayOfWeek == -1) {
+                dayOfWeek = 6;
+            }
+            days[dayOfWeek].push({
+                module: element.desc3,
+                location: element.locAdd1,
+                date: startDateMsg,
+                startTime: startTimeMsg ,
+                endTime: endTimeMsg,
+                teacher: element.teacherName
+            });
+        });
+    .timetable.bg-lighter-dark.p-3.overflow-auto
+        h1 This week
+        table.table.table-dark.table-lighter-dark.p-3
+            each val, index in dayNames
+                -
+                    if (days[index].length == 0) {
+                        continue;
+                    }
+                tr.border-top.border-bottom
+                    th.bg-dark(colspan="100%") 
+                        strong
+                            h5= val
+                each period, periodIndex in days[index]
+                    tr.border-bottom
+                        td= period.module
+                        td= period.location
+                        td= period.date
+                        td= period.startTime
+                        td= period.endTime
+                        td= period.teacher
+        button.btn.btn-primary(onclick="timetable.prevWeek()") 
+            | Prev
+        button.btn.btn-primary.ms-2(onclick="timetable.nextWeek()") 
+            | Next
+            
+            

@@ -1,0 +1,11 @@
+extends includes/html.pug
+
+block head 
+    title Main
+    script(src="/static/js/indexFun.js") 
+
+block main
+    h1#funHeader= test
+    button.btn.btn-primary(type='button' onclick='$(\'.toast\').toast(\'show\')') Show Toasts
+    button#fun.btn.btn-primary.ms-2(type='button' onclick='funButton()') Fun
+    button.btn.btn-primary.ms-2(type='button' onclick='window.location.href="./tetris"') Fun2 - Electric Boogaloo

@@ -1,0 +1,34 @@
+-
+    var navList = [
+        {
+            href: '/',
+            name: 'Home'
+        },
+        {
+            href: '/timetable',
+            name: 'Timetable'
+        },
+        {
+            href: '/attendance',
+            name: 'Attendance'
+        },
+    ];
+
+nav.navbar.navbar-expand-sm.navbar-dark.bg-primary
+    .container-fluid
+        a.navbar-brand(href='#') UoW
+        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+        #navbarSupportedContent.collapse.navbar-collapse
+            ul.navbar-nav.me-auto.mb-2.mb-sm-0
+                - for (let i in navList)
+                    - let nav = navList[i]
+                    - if (pageUrl == nav.href)
+                        li.nav-item
+                            a.nav-link.active(href=nav.href)= nav.name
+                    - else
+                        li.nav-item
+                            a.nav-link(href=nav.href)= nav.name
+            ul.navbar-nav.mb-2.mb-sm-0
+                li.nav-item
+                    a.nav-link.active(href="/logout") Logout
