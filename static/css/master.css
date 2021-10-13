@@ -42,7 +42,7 @@ body {
     --bs-table-bg: var(--bs-gray-dark)!important;
 }
 
-.curvey-section {
+.section {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -86,3 +86,16 @@ body {
 .btn {
     margin: 4px 0;
 }
+
+.dropdown-menu-right {
+    left: auto !important;
+    right: 0 !important;
+}
+
+.show {
+    color: white !important;
+}
+
+.invalid-input::placeholder { 
+    color: red ;
+} 

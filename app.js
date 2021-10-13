@@ -1,5 +1,8 @@
 const express = require("express");
+const session = require('express-session');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const debug = require('debug')('app');
 const path = require('path');
 const chalk = require('chalk');
@@ -14,6 +17,15 @@ Number.prototype.pad = function(size) {
 
 const app = express();
 app.use(morgan('tiny'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: "superduperultrasecret9781",
+    saveUninitialized:true,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    resave: false 
+}));
 
 app.set('views', './views');
 app.set('view engine', 'pug');
@@ -32,7 +44,10 @@ app.use('/api', apiRouter);
 
 app.use((req, res) => {
     res.statusCode = 404;
-    res.render('404', (err, html) => {
+    res.render('404', {
+        token: req.cookies.token, 
+        session: req.session,
+    }, (err, html) => {
         if (err) {
             debug(chalk.red(err));
             return;
