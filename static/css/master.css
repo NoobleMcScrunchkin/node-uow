@@ -1,3 +1,8 @@
+:root {
+    --blue: #3474ff;
+    --orange: #fa7233;
+}
+
 .toast-container::-webkit-scrollbar {
     display: none;
 }
@@ -47,27 +52,35 @@ body {
 }
 
 .spacer {
-    aspect-ratio: 960/300;
+    aspect-ratio: 860/300;
     width: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-}
-
-.black-blue-spacer {
-    background-image: url('/static/svg/layered-black-blue.svg')
-}
-
-.blue-orange-spacer {
-    background-image: url('/static/svg/layered-blue-orange.svg')
+    overflow: hidden;
+    position: relative;
 }
 
 .bg-blue {
-    background-color: #3474ff;
+    background-color: var(--blue);
 }
 
 .bg-orange {
-    background-color: #fa7233;
+    background-color: var(--orange);
+}
+
+.spacer svg {
+    width: 120%;
+    left: -10%;
+    position: absolute;
+}
+
+#transition-bb svg rect {
+    fill: var(--blue);
+}
+
+#transition-bo svg rect {
+    fill: var(--orange);
 }
 
 .btn {

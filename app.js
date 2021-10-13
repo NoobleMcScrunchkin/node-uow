@@ -30,9 +30,6 @@ app.use('/', mainRouter);
 const apiRouter = require('./routes/apiRoutes');
 app.use('/api', apiRouter);
 
-const storystrapRouter = require('./routes/storystrapRoutes');
-app.use('/storystrap', storystrapRouter);
-
 app.use((req, res) => {
     res.statusCode = 404;
     res.render('404', (err, html) => {
