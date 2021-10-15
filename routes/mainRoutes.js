@@ -1,14 +1,18 @@
 const express = require('express');
-const debug = require('debug')('bookRoutes');
+const debug = require('debug')('mainRoutes');
 const chalk = require('chalk');
+const getTimetable = require('../components/getTimetable');
 
 const mainRoutes = express.Router();
 
-const getTimetable = require('../components/getTimetable');
-const CMAUTHTOKEN = "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJMNVZqamhvVGlQZXZuMk1DdTBTdXZRIiwiaWF0IjoxNjMyMTQ2NTY4LCJpc3MiOiJFeExpYnJpcyIsInN1YiI6IkNhbXB1c01Vc2VyIiwiZXhwIjoxNjM0NzM4NTY4LCJ1c2VybmFtZSI6IksuQXNsZXR0LjIwIiwibWFpbCI6IksuQXNsZXR0LjIwQHVuaW1haWwud2luY2hlc3Rlci5hYy51ayIsImZpcnN0TmFtZSI6IktpZXJhbiIsImxhc3ROYW1lIjoiQXNsZXR0IiwiY21QZXJzb25JZCI6NDU4Mjk2OSwiY21PcmdDb2RlIjoxNTcsImNtUHJvZmlsZUdyb3VwSWQiOjczMDksImNtSW50ZWdyYXRpb25Qcm9maWxlSWQiOjI0ODEsImV4dHJhQXR0cnMiOnsiQWxtYUlEIjoiMjAwNzMxMiIsImVtcGxveWVlSUQiOiIyMDA3MzEyIiwidXNlcm5hbWUiOiJLLkFzbGV0dC4yMCJ9LCJhdXRoVHlwZSI6IkNNQVVUSCIsInJvbGVzSGFzaCI6ImYvOWNzcDFoVVg0ZHNOVTFycy9ZNVNSSnh2bU5FbWJyNXZteUNhWlMwR009In0.d5-bz029CeW5f7_-rBNL4pIGm9P9cebTiaG4QqDpOU1aQW3yHLMqnKMv0oyYQQRRdyimmgJziZz89UG2TFzhzxJcvRW2758HeHkJiTirjl3Qom9gR3uuGEleO0OIAMDkLpl8ruKH6edQRIWR2Tu-ZAI7zRkScsEU2RTKgCSB5eJHreKR6gWMsjxalJJ0QuHVuUvmtYa3dwiPNTHVsaHuBI8foPYJXNFh5OjU82qIgPsjnKQ2w3AuoQCGtT7yNlIx4OXjewtOc3sOrKK0PQW0gJVxXs9ppXehgQewKN4FVNNIRU_Mgfhn3XujbF4yn0mdn_2Vsnca1XxEP2VjOMicRA";
- 
 mainRoutes.get('/', async (req, res) => {
-    res.render('index', {pageUrl: "/", test: "From app.js"}, (err, html) => {
+    console.log(req.session);
+    res.render('index', {
+        token: req.cookies.token,
+        session: req.session,
+        pageUrl: "/", 
+        test: "From app.js"
+    }, (err, html) => {
         if (err) {
             debug(chalk.red(err));
             return;
@@ -18,7 +22,12 @@ mainRoutes.get('/', async (req, res) => {
 });
 
 mainRoutes.get('/timetable', async (req, res) => {
-    res.render('timetable', {pageUrl: "/timetable", timetable: await getTimetable(CMAUTHTOKEN)}, (err, html) => {
+    res.render('timetable', {
+        token: req.cookies.token,
+        session: req.session,
+        pageUrl: "/timetable", 
+        timetable: await getTimetable(req.cookies.token)
+    }, (err, html) => {
         if (err) {
             debug(chalk.red(err));
             return;
@@ -28,7 +37,27 @@ mainRoutes.get('/timetable', async (req, res) => {
 });
 
 mainRoutes.get('/attendance', async (req, res) => {
-    res.render('attendance', {pageUrl: "/attendance", timetable: await getTimetable(CMAUTHTOKEN)}, (err, html) => {
+    res.render('attendance', {
+        token: req.cookies.token,
+        session: req.session,
+        pageUrl: "/attendance", 
+        timetable: await getTimetable(req.cookies.token)
+    }, (err, html) => {
+        if (err) {
+            debug(chalk.red(err));
+            return;
+        }
+        res.send(html);
+    });
+});
+
+mainRoutes.get('/login', async (req, res) => {
+    res.render('login', {
+        token: req.cookies.token,
+        session: req.session,
+        pageUrl: "/login",
+        invalid: req.query.invalid
+    }, (err, html) => {
         if (err) {
             debug(chalk.red(err));
             return;
@@ -38,6 +67,7 @@ mainRoutes.get('/attendance', async (req, res) => {
 });
 
 mainRoutes.get('/logout', async (req, res) => {
+    res.clearCookie('token');
     res.redirect("/");
 });
 

@@ -1,0 +1,17 @@
+extends includes/html.pug
+
+block head 
+    title Login 
+
+block main 
+    section.section
+        .p-3.bg-lighter-dark.w-100.br-4.rounded.border.border-secondary.mt-3.text-center
+            h1 CampusM Auth Token
+            form.d-flex.flex-column.align-items-center.mb-2.mt-2(action="/api/login" method="POST")
+                .mt-1.mb-1.ms-3.me-3.w-100
+                    if invalid
+                        input.form-control.invalid-input(type='text' placeholder="Invalid Token" name="token")
+                    else 
+                        input.form-control(type='text' placeholder=((token != undefined && session.profile != undefined) ? token : "Token") name="token")
+                    .form-text.mb-0.text-center.w-100.mb This is the CMAUTHTOKEN from CampusM cookies
+                button.btn.btn-primary.w-50(type='submit') Save Token

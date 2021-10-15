@@ -1,11 +1,22 @@
 const express = require('express');
+const debug = require('debug')('apiRoutes');
+const { validateLogin } = require('../components/login');
 const getTimetable = require('../components/getTimetable');
-const CMAUTHTOKEN = "eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJMNVZqamhvVGlQZXZuMk1DdTBTdXZRIiwiaWF0IjoxNjMyMTQ2NTY4LCJpc3MiOiJFeExpYnJpcyIsInN1YiI6IkNhbXB1c01Vc2VyIiwiZXhwIjoxNjM0NzM4NTY4LCJ1c2VybmFtZSI6IksuQXNsZXR0LjIwIiwibWFpbCI6IksuQXNsZXR0LjIwQHVuaW1haWwud2luY2hlc3Rlci5hYy51ayIsImZpcnN0TmFtZSI6IktpZXJhbiIsImxhc3ROYW1lIjoiQXNsZXR0IiwiY21QZXJzb25JZCI6NDU4Mjk2OSwiY21PcmdDb2RlIjoxNTcsImNtUHJvZmlsZUdyb3VwSWQiOjczMDksImNtSW50ZWdyYXRpb25Qcm9maWxlSWQiOjI0ODEsImV4dHJhQXR0cnMiOnsiQWxtYUlEIjoiMjAwNzMxMiIsImVtcGxveWVlSUQiOiIyMDA3MzEyIiwidXNlcm5hbWUiOiJLLkFzbGV0dC4yMCJ9LCJhdXRoVHlwZSI6IkNNQVVUSCIsInJvbGVzSGFzaCI6ImYvOWNzcDFoVVg0ZHNOVTFycy9ZNVNSSnh2bU5FbWJyNXZteUNhWlMwR009In0.d5-bz029CeW5f7_-rBNL4pIGm9P9cebTiaG4QqDpOU1aQW3yHLMqnKMv0oyYQQRRdyimmgJziZz89UG2TFzhzxJcvRW2758HeHkJiTirjl3Qom9gR3uuGEleO0OIAMDkLpl8ruKH6edQRIWR2Tu-ZAI7zRkScsEU2RTKgCSB5eJHreKR6gWMsjxalJJ0QuHVuUvmtYa3dwiPNTHVsaHuBI8foPYJXNFh5OjU82qIgPsjnKQ2w3AuoQCGtT7yNlIx4OXjewtOc3sOrKK0PQW0gJVxXs9ppXehgQewKN4FVNNIRU_Mgfhn3XujbF4yn0mdn_2Vsnca1XxEP2VjOMicRA";
-
 const api = express.Router();
 
+api.post('/login', async (req, res) => {
+    let profile = await validateLogin(req.body.token);
+    if (profile) {
+        req.session.profile = profile;
+        res.cookie('token', req.body.token, { maxAge: 900000 });
+        res.redirect("/");
+    } else {
+        res.redirect("/login?invalid=1");
+    }
+});
+
 api.get('/getTimetable', async (req, res) => {
-    res.send(JSON.stringify(await getTimetable(CMAUTHTOKEN, req.query.wc)));
+    res.send(JSON.stringify(await getTimetable(req.cookies.token, req.query.wc)));
 });
 
 module.exports = api;
